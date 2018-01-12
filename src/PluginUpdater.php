@@ -127,7 +127,9 @@ class PluginUpdater {
 		if ( !empty( $this->config['access_token'] ) ) {
 
 			// See Downloading a zipball (private repo) https://help.github.com/articles/downloading-files-from-the-command-line
-			extract( parse_url( $this->config['zip_url'] ) ); // $scheme, $host, $path
+			$urlParams = extract( parse_url( $this->config['zip_url'] ) ); // $scheme, $host, $path
+
+            dump($urlParams);
 
 			$zip_url = $scheme . '://api.github.com/repos' . $path;
 			$zip_url = add_query_arg( array( 'access_token' => $this->config['access_token'] ), $zip_url );
