@@ -4,7 +4,7 @@
  * Plugin URI: https://www.keriganmarketing.com
  * Description: Plugin allows easy payments or donations by credit cards on your blog, on any page or post
  * Author: Kerigan Marketing Associates
- * Version: 1.7
+ * Version: 1.6
  * Release Date: 1/12/18
  * Latest Update: 1/12/18
  * Initial Release Date: 1/12/18
@@ -17,6 +17,7 @@
 
 require_once ('vendor\autoload.php');
 define('PluginDir', dirname(__FILE__));
+define( 'WP_GITHUB_FORCE_UPDATE', true );
 
 //add the hooks for install/uninstall and menu.
 register_activation_hook( __FILE__, function(){
