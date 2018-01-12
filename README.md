@@ -6,6 +6,8 @@ Use at your own risk.
 
 Change Log
 ---
+#### 1.7:
+* Added admin pages and configured updater
 #### 1.2:
 * Added installation scripts
 * Added uninstallation scripts
