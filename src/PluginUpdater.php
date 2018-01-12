@@ -36,21 +36,7 @@ class PluginUpdater {
 	 * @see has_minimum_config()
 	 * @return void
 	 */
-	public function __construct( $pluginSlug ) {
-
-	    $config = [
-            'slug' => $pluginSlug,
-            'proper_folder_name' => 'KMAPaymentCenter',
-            'api_url' => 'https://api.github.com/keriganmarketing/KMAPaymentCenter',
-            'raw_url' => 'https://raw.github.com/keriganmarketing/KMAPaymentCenter/master',
-            'github_url' => 'https://github.com/keriganmarketing/KMAPaymentCenter',
-            'zip_url' => 'https://github.com/keriganmarketing/KMAPaymentCenter/archive/master.zip',
-            'sslverify' => true,
-            'requires' => '3.0',
-            'tested' => '3.3',
-            'readme' => 'README.md',
-            'access_token' => '',
-        ];
+	public function __construct( $config ) {
 
 		$defaults = array(
 			'slug' => plugin_basename( __FILE__ ),
