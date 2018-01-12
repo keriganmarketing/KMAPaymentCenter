@@ -1,5 +1,5 @@
 <?php /*
- Admin Settings
+ Admin Overview page
  */
 ?>
 <div class="page-wrapper" style="margin-left:-20px;">
@@ -8,7 +8,7 @@
             <div class="columns is-vcentered">
                 <div class="column">
                     <p class="title">
-                        Settings
+                        Transactions
                     </p>
                 </div>
                 <div class="column is-narrow">
@@ -20,7 +20,7 @@
     <section class="section">
         <div class="container is-fluid">
             <div class="content">
-                <?php _e("Here you define your Payment Terminal settings such as your e-mail address associated with your merchant account, currency, thank you message and other settings." ); ?>
+                <?php _e("All transactions are logged here." ); ?>
             </div>
         </div>
     </section>
