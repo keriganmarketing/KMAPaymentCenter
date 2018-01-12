@@ -12,7 +12,7 @@
  *
  * @package KMAPaymentCenter
  * @since 1.3
- * @version 1.5
+ * @version 1.6
  */
 
 require_once ('vendor\autoload.php');
