@@ -40,7 +40,7 @@ class PluginUpdater {
 
 	    $config = [
             'slug' => plugin_basename( __FILE__ ),
-            'proper_folder_name' => 'github-updater',
+            'proper_folder_name' => dirname( plugin_basename( __FILE__ ) ),
             'api_url' => 'https://api.github.com/keriganmarketing/KMAPaymentCenter',
             'raw_url' => 'https://raw.github.com/keriganmarketing/KMAPaymentCenter/master',
             'github_url' => 'https://github.com/keriganmarketing/KMAPaymentCenter',
@@ -52,18 +52,11 @@ class PluginUpdater {
             'access_token' => '',
         ];
 
-		$defaults = array(
-			'slug' => plugin_basename( __FILE__ ),
-			'proper_folder_name' => dirname( plugin_basename( __FILE__ ) ),
-			'sslverify' => true,
-			'access_token' => '',
-		);
-
-		$this->config = wp_parse_args( $config, $defaults );
+		$this->config = wp_parse_args( $config );
 
 		// if the minimum config isn't set, issue a warning and bail
 		if ( ! $this->has_minimum_config() ) {
-			$message = 'The GitHub Updater was initialized without the minimum required configuration, please check the config in your plugin. The following params are missing: ';
+			$message = 'The updater was initialized without the minimum required configuration, please check the config in your plugin. The following params are missing: ';
 			$message .= implode( ',', $this->missing_config );
 			_doing_it_wrong( __CLASS__, $message , self::VERSION );
 			return;
