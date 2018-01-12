@@ -12,7 +12,7 @@ class AdminPages
 
     public function addMenus()
     {
-        add_menu_page("Payment Terminal", "Payment Terminal", "administrator", 'anpt-terminal-slug', function () {
+        add_menu_page("Payment Terminal", "Payment Terminal", "administrator", 'kmapayments', function () {
             echo '<h1>It works!</h1>';
         }, "dashicons-cart");
     }

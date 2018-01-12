@@ -12,7 +12,7 @@
  *
  * @package KMAPaymentCenter
  * @since 1.3
- * @version 1.4
+ * @version 1.5
  */
 
 require_once ('vendor\autoload.php');
@@ -34,18 +34,6 @@ add_action('init', function(){
     if(!is_admin()) {
         return;
     }else{
-        new KMAPaymentCenter\PluginUpdater([
-            'slug' => plugin_basename( __FILE__ ),
-            'proper_folder_name' => 'github-updater',
-            'api_url' => 'https://api.github.com/keriganmarketing/KMAPaymentCenter',
-            'raw_url' => 'https://raw.github.com/keriganmarketing/KMAPaymentCenter/master',
-            'github_url' => 'https://github.com/keriganmarketing/KMAPaymentCenter',
-            'zip_url' => 'https://github.com/keriganmarketing/KMAPaymentCenter/archive/master.zip',
-            'sslverify' => true,
-            'requires' => '3.0',
-            'tested' => '3.3',
-            'readme' => 'README.md',
-            'access_token' => '',
-        ]);
+        new KMAPaymentCenter\PluginUpdater();
     }
 });
