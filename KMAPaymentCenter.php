@@ -10,9 +10,9 @@
  * Initial Release Date: 1/12/18
  * Author URI: https://www.keriganmarketing.com
  *
- * @package KMAPaymanrCenter
+ * @package KMAPaymentCenter
  * @since 1.3
- * @version 1.2
+ * @version 1.3
  */
 
 require_once ('vendor\autoload.php');
