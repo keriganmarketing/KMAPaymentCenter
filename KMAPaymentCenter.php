@@ -35,5 +35,6 @@ add_action('init', function(){
         return;
     }else{
         new KMAPaymentCenter\PluginUpdater();
+        new KMAPaymentCenter\AdminPages();
     }
 });
