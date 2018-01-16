@@ -2,23 +2,28 @@
 
 namespace KMAPaymentCenter;
 
-use KMAPaymentCenter\PluginConfig;
-
 class PluginSetup
 {
     protected $processorConfig;
+    public $pluginDir;
+    public $pluginSlug;
+    public $pluginName;
 
     public function __construct()
     {
+        $config = new PluginConfig();
+        $this->pluginDir = $config->getVar('pluginDir');
+        $this->pluginSlug = $config->getVar('pluginSlug');
+        $this->pluginName = $config->getVar('pluginName');
         $this->processorConfig = [
-            'Authorize'=>[
-                'LIVE'=>[
-                    'API Login ID'=>'your_LIVE_login_id',
-                    'API Transaction Key'=>'your_LIVE_transaction_key'
+            'Authorize' => [
+                'LIVE' => [
+                    'API Login ID'        => 'your_LIVE_login_id',
+                    'API Transaction Key' => 'your_LIVE_transaction_key'
                 ],
-                'TEST'=>[
-                    'API Login ID'=>'your_SANDBOX_login_id',
-                    'API Transaction Key'=>'your_SANDBOX_transaction_key'
+                'TEST' => [
+                    'API Login ID'        => 'your_SANDBOX_login_id',
+                    'API Transaction Key' => 'your_SANDBOX_transaction_key'
                 ]
             ]
         ];
@@ -98,6 +103,18 @@ class PluginSetup
 
     public function updatePlugin()
     {
-
+        new PluginUpdater( [
+            'slug' => $this->pluginSlug,
+            'proper_folder_name' => $this->pluginName,
+            'api_url' => 'https://api.github.com/keriganmarketing/KMAPaymentCenter',
+            'raw_url' => 'https://raw.github.com/keriganmarketing/KMAPaymentCenter/master',
+            'github_url' => 'https://github.com/keriganmarketing/KMAPaymentCenter',
+            'zip_url' => 'https://github.com/keriganmarketing/KMAPaymentCenter/archive/master.zip',
+            'sslverify' => true,
+            'requires' => '3.0',
+            'tested' => '3.3',
+            'readme' => 'README.md',
+            'access_token' => '',
+        ] );
     }
 }

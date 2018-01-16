@@ -1,20 +1,23 @@
 <?php
 
 namespace KMAPaymentCenter;
-use KMAPaymentCenter\PluginConfig;
 
 class AdminPages
 {
+    public $pluginDir;
+    public $pluginSlug;
+    public $pluginName;
+
     public function __construct()
     {
+        $config = new PluginConfig();
+        $this->pluginDir = $config->getVar('pluginDir');
+        $this->pluginSlug = $config->getVar('pluginSlug');
+        $this->pluginName = $config->getVar('pluginName');
+
         add_action('admin_menu', function(){
             $this->addMenus();
         });
-
-        add_action('admin_enqueue_scripts', function() {
-            $this->loadCss();
-        });
-
     }
 
     protected function loadCss()
@@ -25,15 +28,18 @@ class AdminPages
     public function addMenus()
     {
         add_menu_page("Payment Center", "Payment Center", "administrator", 'kma-payments', function () {
-            include(wp_normalize_path(PluginDir . '/templates/AdminOverview.php'));
+            $this->loadCss();
+            include(wp_normalize_path($this->pluginDir . '/templates/AdminOverview.php'));
         }, "dashicons-feedback");
 
         add_submenu_page( 'kma-payments', 'Payment Center Settings', 'Settings', 'administrator', 'payment-settings', function() {
-            include(wp_normalize_path(PluginDir . '/templates/AdminSettings.php'));
+            $this->loadCss();
+            include(wp_normalize_path($this->pluginDir . '/templates/AdminSettings.php'));
         });
 
         add_submenu_page( 'kma-payments', 'Payment Center Transactions', 'Transactions', 'administrator', 'payment-transactions', function() {
-            include(wp_normalize_path(PluginDir . '/templates/AdminTransactions.php'));
+            $this->loadCss();
+            include(wp_normalize_path($this->pluginDir . '/templates/AdminTransactions.php'));
         });
     }
 }
