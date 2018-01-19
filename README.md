@@ -6,6 +6,8 @@ Use at your own risk.
 
 Change Log
 ---
+#### 1.7.2:
+* Hotfix
 #### 1.7.1:
 * Hotfix
 #### 1.7:
