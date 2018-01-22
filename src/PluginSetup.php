@@ -22,12 +22,12 @@ class PluginSetup
     {
         global $wpdb;
 
-        //let's create transaction table.
         $table = $wpdb->prefix."kmapc_transactions";
+        $charset_collate = $wpdb->get_charset_collate();
 
-        $structure = "CREATE TABLE IF NOT EXISTS $table (
+        $structure = "CREATE TABLE $table (
 					kmapc_id int(20) NOT NULL auto_increment,
-					kmapc_dateCreated datetime default '0000-00-00 00:00:00',
+					kmapc_date_created datetime default '0000-00-00 00:00:00',
 					kmapc_amount double NOT NULL,
 					kmapc_payer_email varchar(255) default NULL,
 					kmapc_comment longtext,
@@ -39,15 +39,16 @@ class PluginSetup
 					kmapc_bill_cycle  varchar(255) NOT NULL,
 					kmapc_recurring tinyint(5) default '0',
 					kmapc_recurring_cancelled tinyint(5) default '0',
-					UNIQUE KEY kmapc_id (anpt_id),
-					UNIQUE KEY kmapc_transaction_id (kmapc_transaction_id))
-					ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+					UNIQUE KEY kmapc_transaction_id (kmapc_transaction_id),
+					PRIMARY KEY  (kmapc_id)
+					) $charset_collate;";
 
-        $wpdb->query($structure);
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $structure );
 
         //now create services table
         $table = $wpdb->prefix."kmapc_services";
-        $structure = "CREATE TABLE IF NOT EXISTS $table (
+        $structure = "CREATE TABLE $table (
 					kmapc_services_id INT(20) NOT NULL AUTO_INCREMENT,
 					kmapc_services_title VARCHAR(255) NOT NULL,
 					kmapc_services_price DOUBLE NOT NULL,
@@ -57,8 +58,10 @@ class PluginSetup
 					kmapc_services_recurring_trial BOOLEAN default 0,
 					kmapc_services_recurring_trial_days INT(20) not null default 0,
 					kmapc_services_descr MEDIUMTEXT NULL,
-					UNIQUE KEY kmapc_services_id (anpt_services_id));";
-        $wpdb->query($structure);
+					PRIMARY KEY  (kmapc_services_id)
+					) $charset_collate;";
+
+        dbDelta( $structure );
 
         update_option('kmapc_processor',"1");
         update_option('kmapc_currency',"USD");
