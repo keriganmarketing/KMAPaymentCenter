@@ -30,6 +30,9 @@ register_deactivation_hook(__FILE__, function(){
 
 //updater
 add_action('init', function(){
+
+	new KMAPaymentCenter\FormShortcode();
+
     if(!is_admin()) {
         return;
     }else{
