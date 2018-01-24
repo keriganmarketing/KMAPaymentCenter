@@ -250,4 +250,71 @@ $service          = ( ! empty($_REQUEST['service'])) ? strip_tags(str_replace("'
         </div>
 
     </div>
+
+    <h2 class="title">Billing Information</h2>
+    <div class="pane">
+        <div class="columns is-multiline">
+            <div class="column is-4">
+                <label class="label">First Name:</label>
+                <input name="fname" id="fname" type="text" class="input long-field" value="<?php echo $fname; ?>"
+                       onkeyup="checkFieldBack(this);"/>
+            </div>
+            <div class="column is-4">
+                <label class="label">Last Name:</label>
+                <input name="lname" id="lname" type="text" class="input long-field" value="<?php echo $lname; ?>"
+                       onkeyup="checkFieldBack(this);"/>
+            </div>
+            <div class="column is-4">
+                <label class="label">E-mail:</label>
+                <input name="email" id="email" type="text" class="input long-field" value="<?php echo $email; ?>"
+                       onkeyup="checkFieldBack(this);"/>
+            </div>
+
+            <div class="column is-8">
+                <label class="label">Address:</label>
+                <input name="address" id="address" type="text" class="input long-field" value="<?php echo $address; ?>"
+                       onkeyup="checkFieldBack(this);"/>
+            </div>
+
+            <div class="column is-4">
+                <label class="label">City:</label>
+                <input name="city" id="city" type="text" class="input long-field" value="<?php echo $city; ?>"
+                       onkeyup="checkFieldBack(this);"/>
+            </div>
+            <div class="column is-4">
+                <label class="label">State/Province:</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select style="width:250px;" name="state" id="state" class="long-field" onchange="checkFieldBack(this);">
+							<?php include('inc/state-select.php'); ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-4">
+                <label class="label">ZIP/Postal Code:</label>
+                <input name="zip" id="zip" type="text" class="input small-field" value="<?php echo $zip; ?>"
+                       onkeyup="checkFieldBack(this);"/>
+            </div>
+            <div class="column is-4">
+                <label class="label">Country:</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select style="width:250px;" name="country" id="country" class="long-field" onchange="checkFieldBack(this);">
+							<?php include('inc/country-select.php'); ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <input type="hidden" name="process" value="yes" />
+                <div class="submit-btn">
+                    <button type="submit" name="submit" class="button is-primary" <?php if ($form->anpt_enable_captcha){ ?>disabled<?php } ?> >Submit Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

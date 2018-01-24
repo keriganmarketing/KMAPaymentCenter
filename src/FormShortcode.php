@@ -29,7 +29,7 @@ class FormShortcode
 
 	protected function showForm()
 	{
-		$imageDir = $this->pluginDir . '/forms/images';
+		$imageDir = plugin_dir_url(dirname(__FILE__)) . '/forms/images';
 		include($this->pluginDir . '/forms/payment-form-standard.php');
 	}
 
