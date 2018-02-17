@@ -1,4 +1,5 @@
 <?php
+
 namespace KMAPaymentCenter;
 
 class ProcessSubmission
@@ -13,23 +14,28 @@ class ProcessSubmission
             if ($payment->return['RESPONSE'] == 'OK') {
                 $this->showSuccess($payment->return['details']);
             } elseif ($payment->return['RESPONSE'] == 'ERROR') {
-                $this->showError($payment->return['details']['errors']);
+                $this->showError($payment->return['details']);
             }
         }
     }
 
     protected function showSuccess($message)
     {
-        echo '<div style="padding:1rem; color: green; background-color: rgba(0,255,0,.1); border: 1px solid green; margin: 1rem 0;" >
-                <p>' . $message['description'] . ' You will receive an email receipt and your transaction ID is ' . $message['transaction_id'] . '.</p>
-              </div>';
+        echo '<div style="padding:1rem; color: green; background-color: rgba(0,255,0,.1); border: 1px solid green; margin: 1rem 0;" >';
+        if ($message['type'] == 'single payment') {
+            echo '<p>' . $message['description'] . ' You will receive an email receipt and your transaction ID is ' . $message['transaction_id'] . '.</p>';
+        }
+        if ($message['type'] == 'recurring payment') {
+            echo '<p>' . $message['description'] . ' You will receive an email receipt and your subdcription ID is ' . $message['subscription_id'] . '.</p>';
+        }
+        echo '</div>';
     }
 
     protected function showError($errors)
     {
         echo '<div style="padding:1rem; color: red; background-color: rgba(255,0,0,.1); border: 1px solid red; margin: 1rem 0;" ><p>There were errors in your submission. Please check the following and retry your payment.</p><ul>';
         foreach ($errors as $key => $error) {
-            echo '<li>' . (! is_numeric($key) ? $key . ':' : '') . $error . '</li>';
+            echo '<li>' . (! is_numeric($key) ? $key . ': ' : '') . $error . '</li>';
         }
         echo '</ul></div>';
     }

@@ -12,9 +12,9 @@ class ProcessPayment
 {
     protected $requiredFields;
     protected $inputFields;
-    public $valid;
-    public $errors;
-    public $return;
+    public    $valid;
+    public    $errors;
+    public    $return;
 
     public function __construct()
     {
@@ -47,13 +47,14 @@ class ProcessPayment
 
     protected function controlPaymentType()
     {
-        $merchantAuthentication    = $this->getMerchantCredentials();
+        $merchantAuthentication = $this->getMerchantCredentials();
 
         $response = null;
         if ($this->inputFields['whatToPay'] == 'invoice') {
             $response = $this->payInvoice($merchantAuthentication);
         }
         if ($this->inputFields['whatToPay'] == 'recurring-service') {
+            echo '<pre>', print_r($_POST), '</pre>';
             $response = $this->createRecurringPayment($merchantAuthentication);
         }
 
@@ -63,7 +64,8 @@ class ProcessPayment
     protected function getMerchantCredentials()
     {
         $pluginConfig           = new PluginConfig();
-        $processorConfig        = $pluginConfig->setTerminalState($pluginConfig->getVar('processorConfig'), 'default');
+        $processorConfig        = $pluginConfig->setTerminalState($pluginConfig->getVar('processorConfig'),
+            'default');
         $TestMode               = (get_option('kmapc_test') != 2 ? 'TEST' : 'LIVE'); // 1=on; 2=off;
         $merchantCredentials    = $processorConfig['AUTHORIZE'][$TestMode];
         $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
@@ -132,7 +134,7 @@ class ProcessPayment
 
         // Create the controller and get the response
         $controller = new AnetController\CreateTransactionController($request);
-        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        $response   = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
 
         if ($response != null) {
             // Check to see if the API request was successfully received and acted upon
@@ -143,6 +145,7 @@ class ProcessPayment
                 if ($tresponse != null && $tresponse->getMessages() != '') {
                     return [
                         'RESPONSE' => 'OK',
+                        'type'     => 'single payment',
                         'details'  => [
                             'transaction_id' => $tresponse->getTransId(),
                             'response_code'  => $tresponse->getResponseCode(),
@@ -156,8 +159,9 @@ class ProcessPayment
                     if ($tresponse->getErrors() != null) {
                         return [
                             'RESPONSE' => 'ERROR',
+                            'type'     => 'single payment',
                             'details'  => [
-                                'error_code' => $tresponse->getErrors()[0]->getErrorCode(),
+                                'error_code'    => $tresponse->getErrors()[0]->getErrorCode(),
                                 'error_message' => $tresponse->getErrors()[0]->getErrorText()
                             ]
                         ];
@@ -171,16 +175,18 @@ class ProcessPayment
                 if ($tresponse != null && $tresponse->getErrors() != null) {
                     return [
                         'RESPONSE' => 'ERROR',
+                        'type'     => 'single payment',
                         'details'  => [
-                            'error_code' => $tresponse->getErrors()[0]->getErrorCode(),
+                            'error_code'    => $tresponse->getErrors()[0]->getErrorCode(),
                             'error_message' => $tresponse->getErrors()[0]->getErrorText()
                         ]
                     ];
                 } else {
                     return [
                         'RESPONSE' => 'ERROR',
+                        'type'     => 'single payment',
                         'details'  => [
-                            'error_code' => $response->getMessages()->getMessage()[0]->getCode() ,
+                            'error_code'    => $response->getMessages()->getMessage()[0]->getCode(),
                             'error_message' => $response->getMessages()->getMessage()[0]->getText()
                         ]
                     ];
@@ -189,8 +195,9 @@ class ProcessPayment
         } else {
             return [
                 'RESPONSE' => 'ERROR',
+                'type'     => 'single payment',
                 'details'  => [
-                    'error_code' => 0,
+                    'error_code'    => 0,
                     'error_message' => 'No response returned.'
                 ]
             ];
@@ -210,10 +217,10 @@ class ProcessPayment
         $paymentSchedule = new AnetAPI\PaymentScheduleType();
         $paymentSchedule->setInterval($interval);
         $paymentSchedule->setStartDate(new \DateTime(date('Y-m-d')));
-        //$paymentSchedule->setTotalOccurrences("12"); //HOW LONG?
-        //$paymentSchedule->setTrialOccurrences("1"); //TRIAL?
+        $paymentSchedule->setTotalOccurrences("999"); //HOW LONG?
+        $paymentSchedule->setTrialOccurrences("0"); //TRIAL?
         $subscription->setPaymentSchedule($paymentSchedule);
-        $subscription->setAmount(rand(1,99999)/12.0*12); //WTF
+        $subscription->setAmount($this->inputFields['serviceAmount']);
         $subscription->setTrialAmount("0.00");
 
         $creditCard = new AnetAPI\CreditCardType();
@@ -228,25 +235,36 @@ class ProcessPayment
         $subscription->setOrder($order);
 
         $billTo = new AnetAPI\NameAndAddressType();
-        $billTo->setFirstName("John");
-        $billTo->setLastName("Smith");
+        $billTo->setFirstName($this->requiredFields['firstName']);
+        $billTo->setLastName($this->requiredFields['lastName']);
         $subscription->setBillTo($billTo);
         $request = new AnetAPI\ARBCreateSubscriptionRequest();
         $request->setmerchantAuthentication($merchantAuthentication);
         $request->setRefId($refId);
         $request->setSubscription($subscription);
         $controller = new AnetController\ARBCreateSubscriptionController($request);
-        $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        $response   = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
 
-        if (($response != null) && ($response->getMessages()->getResultCode() == "Ok") )
-        {
-            echo "SUCCESS: Subscription ID : " . $response->getSubscriptionId() . "\n";
-        }
-        else
-        {
-            echo "ERROR :  Invalid response\n";
+        if (($response != null) && ($response->getMessages()->getResultCode() == "Ok")) {
+            return [
+                'RESPONSE' => 'OK',
+                'type'     => 'recurring payment',
+                'details'  => [
+                    'description'     => $response->getMessages()->getMessage()[0]->getText(),
+                    'subscription_id' => $response->getSubscriptionId()
+                ]
+            ];
+        } else {
             $errorMessages = $response->getMessages()->getMessage();
-            echo "Response : " . $errorMessages[0]->getCode() . "  " .$errorMessages[0]->getText() . "\n";
+
+            return [
+                'RESPONSE' => 'ERROR',
+                'type'     => 'recurring payment',
+                'details'  => [
+                    'error_code' => $errorMessages[0]->getCode(),
+                    'message'    => $errorMessages[0]->getText()
+                ]
+            ];
         }
     }
 }

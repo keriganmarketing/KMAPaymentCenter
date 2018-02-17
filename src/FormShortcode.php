@@ -11,25 +11,25 @@ namespace KMAPaymentCenter;
 
 class FormShortcode
 {
-	public $pluginDir;
-	public $pluginSlug;
-	public $pluginName;
-	protected $processorConfig;
+    public    $pluginDir;
+    public    $pluginSlug;
+    public    $pluginName;
+    protected $processorConfig;
 
-	public function __construct()
-	{
-		$config = new PluginConfig();
-		$this->pluginDir = $config->getVar('pluginDir');
-		$this->pluginSlug = $config->getVar('pluginSlug');
-		$this->pluginName = $config->getVar('pluginName');
-		$this->pluginName = $config->getVar('processorConfig');
+    public function __construct()
+    {
+        $config           = new PluginConfig();
+        $this->pluginDir  = $config->getVar('pluginDir');
+        $this->pluginSlug = $config->getVar('pluginSlug');
+        $this->pluginName = $config->getVar('pluginName');
+        $this->pluginName = $config->getVar('processorConfig');
 
-		$this->addShortcode();
-	}
+        $this->addShortcode();
+    }
 
-	protected function showForm()
-	{
-		$imageDir = plugin_dir_url(dirname(__FILE__)) . '/forms/images';
+    protected function showForm()
+    {
+        $imageDir = plugin_dir_url(dirname(__FILE__)) . '/forms/images';
 
         $service         = (isset($_REQUEST["service"]) ? $_REQUEST["service"] : null);
         $invoiceNumber   = (isset($_REQUEST["invoice_number"]) ? $_REQUEST["invoice_number"] : null);
@@ -56,17 +56,17 @@ class FormShortcode
         $formSec       = (isset($_REQUEST["form_sec"]) ? $_REQUEST["form_sec"] : null);
         $formSubmitted = (isset($_REQUEST["form_submitted"]) ? $_REQUEST["form_submitted"] : null);
 
-        if($formSec == '' && $formSubmitted == 'yes'){
+        if ($formSec == '' && $formSubmitted == 'yes') {
             new ProcessSubmission();
         }
 
-		include($this->pluginDir . '/forms/payment-form-standard.php');
-	}
+        include($this->pluginDir . '/forms/payment-form-standard.php');
+    }
 
-	protected function addShortcode()
-	{
-		add_shortcode( 'payment_form', function( $atts ){
-			$this->showForm();
-		} );
-	}
+    protected function addShortcode()
+    {
+        add_shortcode('payment_form', function ($atts) {
+            $this->showForm();
+        });
+    }
 }

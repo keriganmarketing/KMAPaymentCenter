@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
 <style>
     .pane {
@@ -23,53 +22,69 @@
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         let whattopay = $('#what_to_pay'),
-            payinvoice = $('#payinvoice'),
-            recurringservice = $('#recurringservice');
+          payinvoice = $('#payinvoice'),
+          recurringservice = $('#recurringservice'),
+          serviceinput = $('#service')
 
-        function changeType(input) {
+        if (whattopay.val() !== '') {
+            changeType(whattopay)
+        }
+        whattopay.change(function () {
+            if (whattopay.val() !== '') {
+                changeType(whattopay)
+            }
+        })
+
+        function changeType (input) {
             if (input.val() === 'invoice') {
-                payinvoice[0].style.display = "flex";
-                recurringservice[0].style.display = "none";
-            } else {
-                payinvoice[0].style.display = "none";
-                recurringservice[0].style.display = "flex";
+                payinvoice[0].style.display = 'flex'
+                recurringservice[0].style.display = 'none'
+            }
+            if (input.val() === 'recurring-service') {
+                payinvoice[0].style.display = 'none'
+                recurringservice[0].style.display = 'flex'
             }
         }
 
-        changeType(whattopay);
-        whattopay.change(function () {
-            changeType($(this));
-        });
+        if (serviceinput.val() !== '') {
+            setTermValues()
+        }
+        serviceinput.change(function () {
+            if (serviceinput.val() !== '') {
+                setTermValues()
+            }
+        })
 
-        $('#service').change(function () {
-            //console.info(this.options);
-            let key = this.value;
+        function setTermValues () {
+            let source = $('#service')[0],
+              key = source.value
 
-            let id = this.options[key].dataset.id,
-                price = this.options[key].dataset.price,
-                term = this.options[key].dataset.term,
-                termtype = this.options[key].dataset.termType;
+            let id = source.options[key].dataset.id,
+              price = source.options[key].dataset.price,
+              term = source.options[key].dataset.term,
+              termtype = source.options[key].dataset.termType
 
-            console.info(this.options[key].dataset);
+            $('#service_amount').val(price)
+            $('#service_term').val(term)
+            $('#service_term_type').val(termtype)
 
-            $('#service_amount').val(price);
-
-            let service_term = $('#service_term');
+            let service_term = $('#service_term_display')
             if (term === 1) {
                 if (termtype === 'months') {
-                    service_term.html('per month');
+                    service_term.html('per month')
                 }
                 if (termtype === 'days') {
-                    service_term.html('per day');
+                    service_term.html('per day')
                 }
                 if (termtype === 'years') {
-                    service_term.html('per year');
+                    service_term.html('per year')
                 }
             } else {
-                service_term.html('every ' + term + ' ' + termtype);
+                service_term.html('every ' + term + ' ' + termtype)
             }
-        });
-    });
+        }
+
+    })
 </script>
 <form id="ff1" name="ff1" method="post" action="" enctype="multipart/form-data" class="anpt_form">
     <h2 class="title current">Payment Information</h2>
@@ -101,7 +116,7 @@
             //echo '<pre>',print_r($currentServices[0]),'</pre>';
 
             $serviceOptions = '';
-            for ($key = 0; $key < count($currentServices)-1; $key++) {
+            for ($key = 0; $key < count($currentServices); $key++) {
                 $serviceOptions .= '<option data-id="' . $currentServices[$key]->kmapc_services_id . '" value="' . ((int)$key + 1) . '" 
 	            data-term="' . $currentServices[$key]->kmapc_services_recurring_period_number . '"
 	            data-term-type="' . $currentServices[$key]->kmapc_services_recurring_period_type . '"
@@ -133,7 +148,7 @@
                                value=""/>
                     </p>
                     <p class="control">
-                        <a class="button is-static" id="service_term"></a>
+                        <a class="button is-static" id="service_term_display"></a>
                     </p>
                 </div>
                 <input type="hidden" name="service_term" id="service_term" value="">
@@ -182,7 +197,7 @@
                             <select name="expiration_month" id="expiration_month" class="small-field">
                                 <?php for ($i = 1; $i <= 12; $i++) {
                                     $month = (strlen($i) == 1 ? '0' . $i : $i); ?>
-                                    <option value="<?php echo $month; ?>" ><?php echo $month; ?></option>
+                                    <option value="<?php echo $month; ?>"><?php echo $month; ?></option>
                                 <?php } ?>
                             </select>
                         </label>
@@ -281,11 +296,11 @@
             </div>
         </div>
     </div>
-    <div >
+    <div>
         <div class="columns is-multiline">
             <div class="column is-12">
                 <input type="hidden" name="form_submitted" value="yes"/>
-                <input type="hidden" name="form_sec" value="" />
+                <input type="hidden" name="form_sec" value=""/>
                 <div class="submit-btn">
                     <button type="submit" name="submit" class="button is-primary">Submit Payment</button>
                 </div>
