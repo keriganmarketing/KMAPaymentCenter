@@ -188,7 +188,7 @@ if(isset($_POST['kmapc_submit_settings']) && $_POST['kmapc_submit_settings'] == 
                         </div>
                     </div>
 
-                    <p class="submit"><input class="button-primary" type="submit" name="Submit" value="<?php _e('Update Settings') ?>" /></p>
+                    <p class="submit"><input class="button is-primary" type="submit" name="Submit" value="<?php _e('Update Settings') ?>" /></p>
                 </form>
             </div>
         </div>

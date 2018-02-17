@@ -159,7 +159,7 @@ $paymentServices = new PaymentServices();
 
                         <div class="field">
                             <div class="control">
-                                <button type="submit" class="button">Submit</button>
+                                <button type="submit" class="button is-primary">Submit</button>
                             </div>
                         </div>
 
