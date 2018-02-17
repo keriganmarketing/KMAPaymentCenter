@@ -372,16 +372,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "62c7ff6d61f8692eac8be024c542b3d9d0ab8c8a"
+                "reference": "e7c53477ff55c21d1b1db7d062edc050a24f465f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/62c7ff6d61f8692eac8be024c542b3d9d0ab8c8a",
-                "reference": "62c7ff6d61f8692eac8be024c542b3d9d0ab8c8a",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/e7c53477ff55c21d1b1db7d062edc050a24f465f",
+                "reference": "e7c53477ff55c21d1b1db7d062edc050a24f465f",
                 "shasum": ""
             },
             "require": {
@@ -389,12 +389,11 @@
                 "doctrine/instantiator": "^1.0.3",
                 "jms/metadata": "~1.1",
                 "jms/parser-lib": "1.*",
-                "php": ">=5.5.0",
+                "php": "^5.5|^7.0",
                 "phpcollection/phpcollection": "~0.1",
                 "phpoption/phpoption": "^1.1"
             },
             "conflict": {
-                "jms/serializer-bundle": "<1.2.1",
                 "twig/twig": "<1.12"
             },
             "require-dev": {
@@ -422,7 +421,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -453,7 +452,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2017-11-30T18:23:40+00:00"
+            "time": "2018-02-04T17:48:54+00:00"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -555,16 +554,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "25c192f25721a74084272671f658797d9e0e0146"
+                "reference": "eab73b6c21d27ae4cd037c417618dfd4befb0bfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/25c192f25721a74084272671f658797d9e0e0146",
-                "reference": "25c192f25721a74084272671f658797d9e0e0146",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/eab73b6c21d27ae4cd037c417618dfd4befb0bfe",
+                "reference": "eab73b6c21d27ae4cd037c417618dfd4befb0bfe",
                 "shasum": ""
             },
             "require": {
@@ -609,7 +608,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2018-01-03T07:37:34+00:00"
+            "time": "2018-01-21T19:05:02+00:00"
         }
     ],
     "packages-dev": [],

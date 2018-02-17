@@ -16,7 +16,7 @@
         }        
     ],
     "require": {
-        "php": ">=5.5.0",
+        "php": "^5.5|^7.0",
         "jms/metadata": "~1.1",
         "jms/parser-lib": "1.*",
         "phpoption/phpoption": "^1.1",
@@ -25,7 +25,6 @@
         "doctrine/instantiator": "^1.0.3"
     },
     "conflict": {
-        "jms/serializer-bundle": "<1.2.1",
         "twig/twig": "<1.12"
     },
     "suggest": {
@@ -62,7 +61,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.10-dev"
+            "dev-master": "1.11-dev"
         }
     }
 }

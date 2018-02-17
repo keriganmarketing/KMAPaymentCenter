@@ -30,7 +30,7 @@ class PaymentServices
         if($this->state == 'change'){
             return $this->editService($post);
         }elseif($this->state == 'add'){
-            return $this->addService($post);
+            return $this->addService($_POST);
         }
     }
 
@@ -50,6 +50,10 @@ class PaymentServices
     public function getEditFromState($get)
     {
         global $wpdb;
+
+        if(!isset($get['id'])){
+            return false;
+        }
 
         $output = $wpdb->get_row(
             "

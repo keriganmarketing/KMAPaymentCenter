@@ -36,7 +36,7 @@ $paymentServices = new PaymentServices();
     <section class="section">
         <div class="container is-fluid">
             <div class="content">
-                <?php _e("Here you create and manage basic list of products, services or events you'd like to accept payments for." ); ?>
+                <?php _e("Here you can create and manage a basic list of products, services or events you'd like to accept payments for." ); ?>
                 <?php
                 $paymentServices->handleState($_GET);
                 $editingService = $paymentServices->getEditFromState($_GET);
@@ -130,7 +130,7 @@ $paymentServices = new PaymentServices();
                                 </a>
                             </p>
                             <p class="control">
-                                <input type="text"  class="input" name="kmapc_services_price" value="<?php echo $kmapcServicesPrice; ?>" >
+                                <input type="text"  class="input" name="kmapc_services_price" value="<?php echo $kmapcServicesPrice; ?>" />
                             </p>
                         </div>
                         <br>
@@ -159,7 +159,7 @@ $paymentServices = new PaymentServices();
                         <h4 class="wp-heading-inline">Current Services</h4>
                         <?php
                         $currentServices = $paymentServices->getServices();
-                        echo '<pre>',print_r($currentServices[0]),'</pre>';
+                        //echo '<pre>',print_r($currentServices[0]),'</pre>';
                         ?>
                         <div class="columns is-multiline is-level">
                         <?php foreach($currentServices as $service){ ?>
