@@ -4,7 +4,7 @@
  * Plugin URI: https://www.keriganmarketing.com
  * Description: Plugin allows easy payments or donations by credit cards on your blog, on any page or post
  * Author: Kerigan Marketing Associates
- * Version: 1.8
+ * Version: 1.8.1
  * Release Date: 1/12/18
  * Latest Update: 2/17/18
  * Initial Release Date: 1/12/18
@@ -12,7 +12,7 @@
  *
  * @package KMAPaymentCenter
  * @since 1.3
- * @version 1.8
+ * @version 1.8.1
  */
 
 require_once (plugin_dir_path(__FILE__) . '/vendor/autoload.php');

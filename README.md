@@ -6,6 +6,9 @@ Use at your own risk.
 
 Change Log
 ---
+#### 1.8.1:
+* More validation
+* Bootstrap template
 #### 1.8:
 * Beta Release
 * Pay by invoice number with open amount
