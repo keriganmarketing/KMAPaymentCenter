@@ -11,9 +11,9 @@ namespace KMAPaymentCenter;
 
 class FormShortcode
 {
-    public    $pluginDir;
-    public    $pluginSlug;
-    public    $pluginName;
+    public $pluginDir;
+    public $pluginSlug;
+    public $pluginName;
     protected $processorConfig;
 
     public function __construct()
@@ -27,9 +27,10 @@ class FormShortcode
         $this->addShortcode();
     }
 
-    protected function showForm()
+    protected function showForm($atts)
     {
-        $imageDir = plugin_dir_url(dirname(__FILE__)) . '/forms/images';
+        //echo '<pre>',print_r($atts),'</pre>';
+        $imageDir = plugin_dir_url(dirname(__FILE__)) . 'forms/images';
 
         $service         = (isset($_REQUEST["service"]) ? $_REQUEST["service"] : null);
         $invoiceNumber   = (isset($_REQUEST["invoice_number"]) ? $_REQUEST["invoice_number"] : null);
@@ -60,13 +61,18 @@ class FormShortcode
             new ProcessSubmission();
         }
 
-        include($this->pluginDir . '/forms/payment-form-standard.php');
+        $format = (isset($atts['format']) ? $atts['format'] : 'standard');
+
+        ob_start();
+        include($this->pluginDir . '/forms/payment-form-' . $format . '.php');
+
+        return ob_get_clean();
     }
 
     protected function addShortcode()
     {
         add_shortcode('payment_form', function ($atts) {
-            $this->showForm();
+            return $this->showForm($atts);
         });
     }
 }

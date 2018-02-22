@@ -143,19 +143,21 @@ class ProcessPayment
                 // and parse it to display the results of authorizing the card
                 $tresponse = $response->getTransactionResponse();
                 if ($tresponse != null && $tresponse->getMessages() != '') {
-                    return [
-                        'RESPONSE' => 'OK',
-                        'type'     => 'single payment',
-                        'details'  => [
+                    $message['RESPONSE'] = 'OK';
+                    $message['type']     = 'single payment';
+                    $message['details']  = [
                             'transaction_id' => $tresponse->getTransId(),
                             'response_code'  => $tresponse->getResponseCode(),
                             'message_code'   => $tresponse->getMessages()[0]->getCode(),
                             'auth_code'      => $tresponse->getAuthCode(),
                             'description'    => $tresponse->getMessages()[0]->getDescription(),
-                        ]
+                        ];
+                    $message['payment_info'] = [
+                        'requiredFields' => $this->requiredFields,
+                        'inputFields'    => $this->inputFields
                     ];
+                    return $message;
                 } else {
-                    echo "Transaction Failed \n";
                     if ($tresponse->getErrors() != null) {
                         return [
                             'RESPONSE' => 'ERROR',
@@ -169,7 +171,6 @@ class ProcessPayment
                 }
                 // Or, print errors if the API request wasn't successful
             } else {
-                echo "Transaction Failed \n";
                 $tresponse = $response->getTransactionResponse();
 
                 if ($tresponse != null && $tresponse->getErrors() != null) {

@@ -15,7 +15,7 @@
  * @version 1.8
  */
 
-require_once ('vendor\autoload.php');
+require_once (plugin_dir_path(__FILE__) . '/vendor/autoload.php');
 
 //add the hooks for install/uninstall and menu.
 register_activation_hook( __FILE__, function(){

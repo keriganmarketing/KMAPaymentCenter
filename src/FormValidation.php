@@ -34,6 +34,7 @@ class FormValidation
         $this->requiredFields['billingState']    = (isset($_REQUEST["billing_state"]) ? $_REQUEST["billing_state"] : null);
         $this->requiredFields['billingZip']      = (isset($_REQUEST["billing_zip"]) ? $_REQUEST["billing_zip"] : null);
 
+        $this->checkAmount();
         $this->checkBlanks();
         $this->cardIsNumber();
         $this->cvvIsNumber();
@@ -41,6 +42,28 @@ class FormValidation
         $this->validateCardNumber();
 
         return $this->valid;
+    }
+
+    protected function checkAmount()
+    {
+        if($this->inputFields['whatToPay'] == ''){
+            $this->valid    = false;
+            $this->errors[] = 'Please tell us what you are paying for.';
+        }elseif($this->inputFields['whatToPay'] == 'invoice'){
+            if ($this->inputFields['invoiceAmount'] == '') {
+                $this->valid    = false;
+                $this->errors[] = 'You must enter an amount when paying an invoice.';
+            }
+            if ($this->inputFields['invoiceNumber'] == '') {
+                $this->valid    = false;
+                $this->errors[] = 'You must enter an invoice number when paying an invoice.';
+            }
+        }elseif($this->inputFields['whatToPay'] == 'recurring-service'){
+            if ($this->inputFields['service'] == '') {
+                $this->valid    = false;
+                $this->errors[] = 'You must select a service.';
+            }
+        }
     }
 
     protected function checkBlanks()
@@ -66,7 +89,7 @@ class FormValidation
     {
         if ( ! is_numeric($this->requiredFields['cardCvv'])) {
             $this->valid    = false;
-            $this->errors[] = 'Credit Card number can contain numbers only.';
+            $this->errors[] = 'CID/CCV number can contain numbers only.';
         }
     }
 
